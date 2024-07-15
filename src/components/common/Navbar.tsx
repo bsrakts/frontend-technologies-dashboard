@@ -11,7 +11,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  StepIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
@@ -32,6 +31,8 @@ const Navbar: React.FC = () => {
   const menuItems = data
     ? Array.from(new Set(data.map((tech: Technology) => tech.category)))
     : [];
+
+  const currentPath = pathname ? pathname.split("/")[1] : "all";
 
   return (
     <>
@@ -55,7 +56,7 @@ const Navbar: React.FC = () => {
           </Typography>
           <ButtonBase>
             <Link
-              href={`/${pathname?.split("/")[1]}?view=charts`}
+              href={`/${currentPath ? currentPath : "all"}?view=charts`}
               passHref
               legacyBehavior
             >
@@ -66,13 +67,11 @@ const Navbar: React.FC = () => {
           </ButtonBase>
           <ButtonBase>
             <Link
-              href={`/${pathname?.split("/")[1]}?view=tables`}
+              href={`/${currentPath ? currentPath : "all"}?view=tables`}
               passHref
               legacyBehavior
             >
-              <a>
-                <Typography variant="button">Table</Typography>
-              </a>
+              <Typography variant="button">Table</Typography>
             </Link>
           </ButtonBase>
         </Toolbar>
@@ -80,7 +79,7 @@ const Navbar: React.FC = () => {
       <Drawer anchor="left" open={sidebarOpen} onClose={toggleSidebar}>
         <List>
           <Link href="/all?view=tables" passHref legacyBehavior>
-            <ListItem button selected={pathname === "/all"}>
+            <ListItem button selected={currentPath === "all"}>
               <ListItemText primary="All" />
             </ListItem>
           </Link>
@@ -93,11 +92,9 @@ const Navbar: React.FC = () => {
                 passHref
                 legacyBehavior
               >
-                <a>
-                  <ListItem button selected={pathname === href}>
-                    <ListItemText primary={category} />
-                  </ListItem>
-                </a>
+                <ListItem button selected={currentPath === href.split("/")[1]}>
+                  <ListItemText primary={category} />
+                </ListItem>
               </Link>
             );
           })}
