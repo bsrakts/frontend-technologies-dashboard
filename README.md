@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend Technologies Dashboard
 
-## Getting Started
+This project is a Frontend Technologies Dashboard created using Next.js, React, Redux Toolkit, and Supabase. The dashboard displays various frontend technologies categorized with their weekly download counts, release dates, and URLs. It also provides data visualizations using ApexCharts.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
+- [Features](#features)
+- [Components](#components)
+- [State Management](#state-management)
+- [Testing](#testing)
+
+## Installation
+
+Clone the repository and install the dependencies.
+
+```sh
+git clone https://github.com/your-repo/frontend-tech.git
+cd frontend-tech
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## USAGE
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run the development server:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```sh
+npm run dev
+```
 
-## Learn More
+To build the project:
 
-To learn more about Next.js, take a look at the following resources:
+```sh
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To start the production server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```sh
+npm start
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+frontend-tech/
+├── public/
+├── src/
+│ ├── app/
+│ ├── components/
+│ │ ├── common/
+│ │ ├── features/
+│ ├── pages/
+│ ├── services/
+│ ├── store/
+│ ├── styles/
+├── node_modules/
+├── package.json
+├── README.md
+├── tsconfig.json
+└── .eslintrc.json
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Dependencies
+The project uses the following main dependencies:
+
+next: The Next.js framework for server-side rendering and static site generation.
+react: A JavaScript library for building user interfaces.
+react-dom: Serves as the entry point to the DOM and server renderers for React.
+@reduxjs/toolkit: The official, opinionated, batteries-included toolset for efficient Redux development.
+@supabase/supabase-js: A JavaScript client library for Supabase.
+apexcharts: A modern charting library that helps developers to create interactive visualizations.
+react-apexcharts: The official React wrapper for ApexCharts.
+axios: A promise-based HTTP client for the browser and Node.js.
+Dev dependencies include:
+
+typescript: A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
+tailwindcss: A utility-first CSS framework for rapid UI development.
+postcss: A tool for transforming CSS with JavaScript plugins.
+Features
+Dynamic Sidebar: Displays categories and allows navigation.
+Responsive Design: Ensures compatibility across devices.
+Charts and Tables: Visualizes data with ApexCharts and displays it in tables with Material-UI.
+Filtering and Sorting: Allows users to filter and sort the data.
+Data Fetching: Uses Supabase for fetching data and displaying it dynamically.
+Components
+Navbar
+The Navbar component provides navigation links to the charts and tables view.
+
+Sidebar
+The Sidebar component displays categories dynamically fetched from the Supabase database. It includes a hamburger menu for responsive design.
+
+Tables
+The Tables component displays the data in a table format, with pagination, sorting, and filtering functionalities.
+
+Charts
+The Charts component visualizes data using ApexCharts. It provides both bar and donut charts to display the top technologies based on weekly downloads.
+
+State Management
+The project uses Redux Toolkit for state management. The next-redux-wrapper is used to integrate Redux with Next.js, ensuring seamless server-side rendering.
