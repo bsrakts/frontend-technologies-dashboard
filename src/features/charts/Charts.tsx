@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useEffect } from "react";
+import ApexChart from "react-apexcharts";
 import { Technology } from "../../types";
-
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 interface ChartsProps {
   data: Technology[];
@@ -11,6 +9,7 @@ interface ChartsProps {
 const Charts: React.FC<ChartsProps> = ({ data }) => {
   const [names, setNames] = useState<string[]>([]);
   const [downloads, setDownloads] = useState<number[]>([]);
+  const [isDataReady, setIsDataReady] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +19,8 @@ const Charts: React.FC<ChartsProps> = ({ data }) => {
             (tech) =>
               tech.weekly_downloads !== null &&
               tech.weekly_downloads !== undefined &&
-              tech.name
+              tech.name !== null &&
+              tech.name !== undefined
           )
           .sort((a, b) => b.weekly_downloads - a.weekly_downloads);
 
@@ -32,43 +32,41 @@ const Charts: React.FC<ChartsProps> = ({ data }) => {
         const newNames = slicedData.map((tech) => tech.name);
         const newDownloads = slicedData.map((tech) => tech.weekly_downloads);
 
-        await new Promise((resolve) => {
-          setNames(newNames);
-          setDownloads(newDownloads);
-          resolve(true);
-        });
+        setNames(newNames);
+        setDownloads(newDownloads);
+        setTimeout(() => setIsDataReady(true), 0);
       }
     };
 
     fetchData();
   }, [data]);
 
-  if (!downloads) {
+  if (!isDataReady) {
     return <div>Loading charts...</div>;
+  } else {
+    return (
+      <div>
+        <ApexChart
+          options={{
+            chart: { type: "donut" },
+            labels: names,
+          }}
+          series={downloads}
+          type="donut"
+          height={350}
+        />
+        <ApexChart
+          options={{
+            chart: { type: "bar" },
+            xaxis: { categories: names },
+          }}
+          series={[{ name: "Weekly Downloads", data: downloads }]}
+          type="bar"
+          height={350}
+        />
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <ApexChart
-        options={{
-          chart: { type: "donut" },
-          labels: names,
-        }}
-        series={downloads}
-        type="donut"
-        height={350}
-      />
-      <ApexChart
-        options={{
-          chart: { type: "bar" },
-          xaxis: { categories: names },
-        }}
-        series={[{ name: "Weekly Downloads", data: downloads }]}
-        type="bar"
-        height={350}
-      />
-    </div>
-  );
 };
 
 export default Charts;

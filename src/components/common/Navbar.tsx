@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
           </IconButton>
           <Typography
             variant="h6"
-            className="font-mono text-gray-900 flex items-center w-full justify-center gap-x-2 text-sm md:text-2xl"
+            className="font-mono text-gray-900 flex items-center w-full justify-center gap-x-2 text-sm md:text-2xl ml-16"
             sx={{ flexGrow: 1 }}
           >
             <CircleNotificationsSharp />
