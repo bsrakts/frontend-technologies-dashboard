@@ -1,6 +1,5 @@
 import "../app/globals.css";
 import Navbar from "../components/common/Navbar";
-import Sidebar from "../components/common/Sidebar";
 import { Providers } from "../store/providers";
 import Box from "@mui/material/Box";
 

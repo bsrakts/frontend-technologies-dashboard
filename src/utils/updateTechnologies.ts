@@ -1,10 +1,18 @@
+import { supabase } from "@/supabaseClient";
 import axios from "axios";
-import { supabase } from "../supabaseClient";
 
 const fetchDownloads = async (packageName: string) => {
   const url = `https://api.npmjs.org/downloads/point/last-week/${packageName}`;
-  const response = await axios.get(url);
-  return response.data.downloads;
+  try {
+    const response = await axios.get(url);
+    return response.data.downloads;
+  } catch (error: any) {
+    console.error(
+      `Error fetching downloads for ${packageName}:`,
+      error.response?.data || error.message
+    );
+    return 0;
+  }
 };
 
 export const updateTechnologies = async () => {
@@ -17,9 +25,9 @@ export const updateTechnologies = async () => {
   }
 
   const updatedData = await Promise.all(
-    data.map(async (tech) => {
+    data.map(async (tech: { npm_name: string; id: any; name: any }) => {
       try {
-        const downloads = await fetchDownloads(tech.name);
+        const downloads = await fetchDownloads(tech.npm_name);
         const { error: updateError } = await supabase
           .from("frontend_technologies")
           .update({ weekly_downloads: downloads })
@@ -27,6 +35,10 @@ export const updateTechnologies = async () => {
 
         if (updateError) {
           console.error(`Error updating ${tech.name}:`, updateError.message);
+        } else {
+          console.log(
+            `Successfully updated ${tech.name} with ${downloads} downloads.`
+          );
         }
 
         return { ...tech, weekly_downloads: downloads };
